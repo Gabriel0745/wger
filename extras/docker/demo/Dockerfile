@@ -117,7 +117,8 @@ RUN mkdir -p ~/static/CACHE ~/media \
     && ln -s /home/wger/static/CACHE /home/wger/src/CACHE \
     && chmod g+w /home/wger/static/CACHE
 
-RUN --mount=type=bind,from=builder,source=/wheels,target=/wheels  . /home/wger/venv/bin/activate \
+COPY --from=builder /wheels /wheels
+RUN . /home/wger/venv/bin/activate \
     && pip install --no-cache /wheels/* \
     && pip install -e . \
     && mkdir -p /home/wger/db \
